@@ -12,6 +12,7 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 interface Algorithms {
   [key: string]: () => void;
@@ -362,188 +363,205 @@ function App() {
   }
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Container
-          maxWidth="sm"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "20px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-around",
-            }}
-          >
-            <Button
-              variant="outlined"
-              color="info"
-              onClick={shuffle}
-              disabled={state === "running"}
-            >
-              Shuffle
-            </Button>
-            <Button
-              variant="outlined"
-              color="info"
-              onClick={sort}
-              disabled={state === "running"}
-            >
-              Sort
-            </Button>
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
-            <FormControl sx={{ m: 1 }}>
-              <InputLabel id="number-of-items-select-label">
-                Number of Items
-              </InputLabel>
-              <Select
-                labelId="number-of-items-select-label"
-                id="number-of-items-select"
-                value={numberOfItems}
-                label="Number of Items"
-                onChange={handleNumberofItemsChange}
-                disabled={state === "running"}
-              >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={30}>30</MenuItem>
-                <MenuItem value={40}>40</MenuItem>
-                <MenuItem value={50}>50</MenuItem>
-                <MenuItem value={60}>60</MenuItem>
-                <MenuItem value={70}>70</MenuItem>
-                <MenuItem value={80}>80</MenuItem>
-                <MenuItem value={90}>90</MenuItem>
-                <MenuItem value={100}>100</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="algorithm-select-label">Algorithm</InputLabel>
-              <Select
-                labelId="algorithm-select-label"
-                id="algorithm-select"
-                value={algorithm}
-                label="Algorithm"
-                onChange={handleAlgorithmChange}
-                disabled={state === "running"}
-              >
-                <MenuItem value={"bubble"}>Bubble Sort</MenuItem>
-                <MenuItem value={"selection"}>Selection Sort</MenuItem>
-                <MenuItem value={"insertion"}>Insertion Sort</MenuItem>
-                <MenuItem value={"quick"}>Quick Sort</MenuItem>
-                <MenuItem value={"merge"}>Merge Sort</MenuItem>
-              </Select>
-            </FormControl>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Container
+                  maxWidth="sm"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    padding: "20px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="info"
+                      onClick={shuffle}
+                      disabled={state === "running"}
+                    >
+                      Shuffle
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="info"
+                      onClick={sort}
+                      disabled={state === "running"}
+                    >
+                      Sort
+                    </Button>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      padding: 2,
+                    }}
+                  >
+                    <FormControl sx={{ m: 1 }}>
+                      <InputLabel id="number-of-items-select-label">
+                        Number of Items
+                      </InputLabel>
+                      <Select
+                        labelId="number-of-items-select-label"
+                        id="number-of-items-select"
+                        value={numberOfItems}
+                        label="Number of Items"
+                        onChange={handleNumberofItemsChange}
+                        disabled={state === "running"}
+                      >
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                        <MenuItem value={30}>30</MenuItem>
+                        <MenuItem value={40}>40</MenuItem>
+                        <MenuItem value={50}>50</MenuItem>
+                        <MenuItem value={60}>60</MenuItem>
+                        <MenuItem value={70}>70</MenuItem>
+                        <MenuItem value={80}>80</MenuItem>
+                        <MenuItem value={90}>90</MenuItem>
+                        <MenuItem value={100}>100</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="algorithm-select-label">
+                        Algorithm
+                      </InputLabel>
+                      <Select
+                        labelId="algorithm-select-label"
+                        id="algorithm-select"
+                        value={algorithm}
+                        label="Algorithm"
+                        onChange={handleAlgorithmChange}
+                        disabled={state === "running"}
+                      >
+                        <MenuItem value={"bubble"}>Bubble Sort</MenuItem>
+                        <MenuItem value={"selection"}>Selection Sort</MenuItem>
+                        <MenuItem value={"insertion"}>Insertion Sort</MenuItem>
+                        <MenuItem value={"quick"}>Quick Sort</MenuItem>
+                        <MenuItem value={"merge"}>Merge Sort</MenuItem>
+                      </Select>
+                    </FormControl>
 
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="speed-select-label">Wait</InputLabel>
-              <Select
-                labelId="speed-select-label"
-                id="speed-select"
-                value={wait}
-                label="Wait"
-                onChange={handleSpeedChange}
-                disabled={state === "running"}
-              >
-                <MenuItem value={0}>No wait</MenuItem>
-                <MenuItem value={1}>1ms</MenuItem>
-                <MenuItem value={10}>10ms</MenuItem>
-                <MenuItem value={50}>50ms</MenuItem>
-                <MenuItem value={100}>100ms</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </Container>
-        <Container maxWidth="md">
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "flex-end",
-              minHeight: "400px",
-            }}
-          >
-            {items.map((item, index) => (
-              <Box
-                key={index}
-                sx={{
-                  width: 100 / numberOfItems + "%",
-                  height: item.value * 4,
-                  backgroundColor: item.color,
-                }}
-              />
-            ))}
-          </Box>
-        </Container>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="speed-select-label">Wait</InputLabel>
+                      <Select
+                        labelId="speed-select-label"
+                        id="speed-select"
+                        value={wait}
+                        label="Wait"
+                        onChange={handleSpeedChange}
+                        disabled={state === "running"}
+                      >
+                        <MenuItem value={0}>No wait</MenuItem>
+                        <MenuItem value={1}>1ms</MenuItem>
+                        <MenuItem value={10}>10ms</MenuItem>
+                        <MenuItem value={50}>50ms</MenuItem>
+                        <MenuItem value={100}>100ms</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Container>
+                <Container maxWidth="md">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "flex-end",
+                      minHeight: "400px",
+                    }}
+                  >
+                    {items.map((item, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: 100 / numberOfItems + "%",
+                          height: item.value * 4,
+                          backgroundColor: item.color,
+                        }}
+                      />
+                    ))}
+                  </Box>
+                </Container>
 
-        <Container
-          maxWidth="sm"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "20px",
-          }}
-        >
-          <Typography
-            variant="h6"
-            component="div"
-            gutterBottom
-            sx={{
-              color:
-                state === "running"
-                  ? colors.blue
-                  : state === "stopped"
-                  ? colors.green
-                  : colors.red,
-            }}
-          >
-            {state === "running"
-              ? "Sorting..."
-              : state === "stopped"
-              ? "Sorted!"
-              : "Shuffled!"}
-          </Typography>
+                <Container
+                  maxWidth="sm"
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    padding: "20px",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    gutterBottom
+                    sx={{
+                      color:
+                        state === "running"
+                          ? colors.blue
+                          : state === "stopped"
+                          ? colors.green
+                          : colors.red,
+                    }}
+                  >
+                    {state === "running"
+                      ? "Sorting..."
+                      : state === "stopped"
+                      ? "Sorted!"
+                      : "Shuffled!"}
+                  </Typography>
 
-          <Typography variant="body1" gutterBottom>
-            Array accesses:{" "}
-            <Typography
-              variant="body1"
-              sx={{ display: "inline", color: colors.green }}
-            >
-              {arrayAccess}
-            </Typography>
-          </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Array accesses:{" "}
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "inline", color: colors.green }}
+                    >
+                      {arrayAccess}
+                    </Typography>
+                  </Typography>
 
-          <Typography variant="body1" gutterBottom>
-            Comparisons:{" "}
-            <Typography
-              variant="body1"
-              sx={{ display: "inline", color: colors.green }}
-            >
-              {comparisons}
-            </Typography>
-          </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Comparisons:{" "}
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "inline", color: colors.green }}
+                    >
+                      {comparisons}
+                    </Typography>
+                  </Typography>
 
-          <Typography variant="body1" gutterBottom>
-            Time:{" "}
-            <Typography
-              variant="body1"
-              sx={{ display: "inline", color: colors.green }}
-            >
-              {time}
-            </Typography>
-            ms
-          </Typography>
-        </Container>
-      </ThemeProvider>
-    </>
+                  <Typography variant="body1" gutterBottom>
+                    Time:{" "}
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "inline", color: colors.green }}
+                    >
+                      {time}
+                    </Typography>
+                    ms
+                  </Typography>
+                </Container>
+              </>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
