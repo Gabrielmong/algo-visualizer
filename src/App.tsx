@@ -368,7 +368,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/"
+            path="/algo-visualizer"
             element={
               <>
                 <Container
